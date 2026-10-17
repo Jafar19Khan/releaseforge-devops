@@ -1,0 +1,16 @@
+---
+# Browser testing is optional. Prefer Selenium Manager (bundled with recent
+# Selenium) instead of pinning a stale ChromeDriver version manually.
+- name: Install browser-test prerequisites on Ubuntu/Debian
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Install Chromium and Python pip when available in the distro
+      ansible.builtin.apt:
+        name:
+          - chromium
+          - python3-pip
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"

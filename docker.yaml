@@ -1,0 +1,46 @@
+---
+- name: Deploy ReleaseForge container
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    image_name: "releaseforge-demo:latest"
+    container_name: "releaseforge-website"
+    published_port: 80
+  tasks:
+    - name: Install Docker from distribution packages
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - python3-docker
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure Docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Pull remote image when a registry image is supplied
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        source: pull
+      when: image_name is search('/')
+
+    - name: Ensure named website container is running
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}"
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "{{ published_port }}:80"
+        labels:
+          project: releaseforge
+        healthcheck:
+          test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/devopsIQ/ || exit 1"]
+          interval: 30s
+          timeout: 3s
+          retries: 3

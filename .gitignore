@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+.terraform/
+*.tfstate
+*.tfstate.*
+inventory.ini
+ansible/inventory/hosts
+__pycache__/
+.venv/
+venv/
+*.log
+.DS_Store

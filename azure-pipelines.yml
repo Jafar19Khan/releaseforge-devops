@@ -1,0 +1,32 @@
+# Optional repository validation pipeline. Jenkins remains the primary deployment CI/CD.
+trigger:
+  branches:
+    include:
+      - main
+      - master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+  - script: |
+      set -eu
+      python -m py_compile selenium_test.py
+      test -f Dockerfile
+      test -f docker-compose.yml
+      grep -q 'ReleaseForge' devopsIQ/index.html
+    displayName: Validate assignment files
+  - script: |
+      docker build -t releaseforge-demo:ci .
+      docker run -d --rm --name releaseforge-ci -p 18082:80 releaseforge-demo:ci
+      trap 'docker stop releaseforge-ci >/dev/null 2>&1 || true' EXIT
+      for attempt in $(seq 1 15); do
+        if curl --fail --silent http://127.0.0.1:18082/devopsIQ/ | grep -q ReleaseForge; then exit 0; fi
+        sleep 2
+      done
+      exit 1
+    displayName: Build container and smoke test

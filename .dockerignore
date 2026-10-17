@@ -1,0 +1,13 @@
+.git
+.gitignore
+README.md
+docs/
+infra/
+ansible/
+*.zip
+*.log
+.env
+.env.*
+__pycache__/
+.venv/
+venv/
