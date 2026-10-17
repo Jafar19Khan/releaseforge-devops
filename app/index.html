@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="ReleaseForge demonstrates repeatable container delivery, automated validation, and operational verification.">
+  <title>ReleaseForge — Ship with confidence</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/main.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="#" aria-label="ReleaseForge home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>release<span class="brand-accent">forge</span></span></a>
+    <nav class="nav-links" aria-label="Main navigation"><a href="#workflow">Workflow</a><a href="#capabilities">Capabilities</a><a href="#operations">Operations</a></nav>
+    <a class="nav-cta" href="#workflow">Explore the workflow <span aria-hidden="true">↗</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation"><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="#workflow">Workflow</a><a href="#capabilities">Capabilities</a><a href="#operations">Operations</a></nav>
+</header>
+<main id="main">
+  <section class="hero section-shell">
+    <div class="hero-grid container">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> DELIVERY ENGINEERING / RELEASE WORKFLOW</div>
+        <h1>Ship better.<br><span>Recover faster.</span></h1>
+        <p class="hero-lead">A compact delivery platform that turns a source change into a repeatable container build, a controlled release, and a verifiable response.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#workflow">See how it works <span aria-hidden="true">→</span></a><a class="text-link" href="#operations">Explore the controls <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-footnote"><span class="pulse"></span> Designed around repeatability, not heroics.</div>
+      </div>
+      <div class="terminal-card" aria-label="Illustration of a delivery pipeline">
+        <div class="terminal-top"><div class="window-dots"><i></i><i></i><i></i></div><span class="terminal-label">release / pipeline.yml</span><span class="terminal-state"><span></span> workflow</span></div>
+        <div class="terminal-body">
+          <div class="terminal-line"><span class="line-no">01</span><span class="code-key">stage</span><span>(</span><span class="code-string">'validate'</span><span>)</span></div>
+          <div class="terminal-line"><span class="line-no">02</span><span class="indent"></span><span class="code-key">run</span><span> source checks</span></div>
+          <div class="terminal-line"><span class="line-no">03</span><span class="line-no"></span><span class="code-comment"># build an immutable artifact</span></div>
+          <div class="terminal-line"><span class="line-no">04</span><span class="code-key">stage</span><span>(</span><span class="code-string">'containerize'</span><span>)</span></div>
+          <div class="terminal-line"><span class="line-no">05</span><span class="indent"></span><span class="code-key">docker</span><span> build --pull</span></div>
+          <div class="terminal-line"><span class="line-no">06</span><span class="line-no"></span><span class="code-comment"># deploy only the named service</span></div>
+          <div class="terminal-line"><span class="line-no">07</span><span class="code-key">stage</span><span>(</span><span class="code-string">'verify'</span><span>)</span></div>
+          <div class="terminal-line"><span class="line-no">08</span><span class="indent"></span><span class="code-key">check</span><span> HTTP + health endpoint</span></div>
+          <div class="terminal-divider"></div>
+          <div class="pipeline-status"><div class="status-icon">✓</div><div><strong>Verification is part of delivery</strong><small>Build · Deploy · Confirm</small></div><span class="status-tag">BY DESIGN</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bottom container"><span>BUILT FOR SMALL, TRACEABLE RELEASES</span><div class="hero-tech"><span>JENKINS</span><b>·</b><span>DOCKER</span><b>·</b><span>NGINX</span><b>·</b><span>GCP VM</span></div></div>
+  </section>
+  <section class="proof-strip" aria-label="Project principles"><div class="container proof-grid">
+    <div class="proof-item"><span class="proof-number">01</span><div><strong>Repeatable builds</strong><small>Same source, predictable artifact</small></div></div>
+    <div class="proof-item"><span class="proof-number">02</span><div><strong>Scoped deployment</strong><small>Replace only the intended service</small></div></div>
+    <div class="proof-item"><span class="proof-number">03</span><div><strong>Observable outcome</strong><small>Health and HTTP checks after release</small></div></div>
+  </div></section>
+  <section class="content-section container" id="workflow">
+    <div class="section-heading"><div><div class="eyebrow">01 / DELIVERY FLOW</div><h2>From commit to confidence.</h2></div><p>Every stage has a clear purpose. A release is not complete just because the image built — the running service must answer.</p></div>
+    <div class="workflow-grid">
+      <article class="workflow-card"><div class="card-top"><span class="step">01</span><span class="card-symbol">⌘</span></div><h3>Validate the source</h3><p>Check required files and page markers before spending time on packaging or deployment.</p><div class="card-meta"><span class="mini-dot"></span> Fail early</div></article>
+      <article class="workflow-card"><div class="card-top"><span class="step">02</span><span class="card-symbol">▧</span></div><h3>Build the artifact</h3><p>Package the static experience into a small Nginx container with a predictable runtime.</p><div class="card-meta"><span class="mini-dot"></span> Repeatable image</div></article>
+      <article class="workflow-card"><div class="card-top"><span class="step">03</span><span class="card-symbol">⇧</span></div><h3>Deploy deliberately</h3><p>Use a named service and explicit port mapping instead of broad host-wide cleanup commands.</p><div class="card-meta"><span class="mini-dot"></span> Scoped change</div></article>
+      <article class="workflow-card"><div class="card-top"><span class="step">04</span><span class="card-symbol">✓</span></div><h3>Verify the release</h3><p>Check the health endpoint and expected page content after the container starts.</p><div class="card-meta"><span class="mini-dot"></span> Evidence-led</div></article>
+    </div>
+  </section>
+  <section class="capabilities-section" id="capabilities"><div class="container capabilities-layout">
+    <div class="capabilities-copy"><div class="eyebrow">02 / ENGINEERING PRINCIPLES</div><h2>Small surface area.<br><span>Clear operational signals.</span></h2><p>The application is deliberately simple. That keeps attention on delivery controls, container health, and the path from a source change to a verified response.</p><a class="text-link" href="#operations">See operational details <span aria-hidden="true">→</span></a></div>
+    <div class="capability-list">
+      <div class="capability-row"><span class="capability-index">A</span><div><strong>Minimal runtime</strong><p>Static assets served by Nginx; no app server or package install at runtime.</p></div><span class="capability-check">✓</span></div>
+      <div class="capability-row"><span class="capability-index">B</span><div><strong>Health endpoint</strong><p>A dedicated <code>/healthz</code> route separates health checks from page content.</p></div><span class="capability-check">✓</span></div>
+      <div class="capability-row"><span class="capability-index">C</span><div><strong>Safe deployment scope</strong><p>Workflows operate on the ReleaseForge container rather than deleting unrelated workloads.</p></div><span class="capability-check">✓</span></div>
+      <div class="capability-row"><span class="capability-index">D</span><div><strong>Evidence attached</strong><p>Historic screenshots document cloud setup, Jenkins job, container status, and deployed page.</p></div><span class="capability-check">✓</span></div>
+    </div>
+  </div></section>
+  <section class="content-section container" id="operations">
+    <div class="section-heading"><div><div class="eyebrow">03 / OPERATIONS</div><h2>Make the result easy to trust.</h2></div><p>Operational checks stay close to the release so a green build is backed by a real HTTP response.</p></div>
+    <div class="operations-panel">
+      <div class="ops-main"><div class="ops-heading"><span class="ops-live"></span><span>POST-DEPLOYMENT CHECKS</span></div><h3>Verify what is actually running.</h3><p>Run the same simple checks locally or in CI to catch missing assets, startup issues, and incorrect routing before calling the release complete.</p>
+        <div class="command-box"><span>$</span><code>python tests/smoke_test.py http://127.0.0.1:8082/</code><button id="copy-command" type="button" aria-label="Copy smoke test command">Copy</button></div><p class="copy-feedback" id="copy-feedback" aria-live="polite"></p>
+      </div>
+      <div class="ops-checks">
+        <div class="ops-check"><span class="check-mark">✓</span><div><strong>HTTP response</strong><small>Expect status 200</small></div><span class="check-state">CHECK</span></div>
+        <div class="ops-check"><span class="check-mark">✓</span><div><strong>Page identity</strong><small>Title and markers match</small></div><span class="check-state">CHECK</span></div>
+        <div class="ops-check"><span class="check-mark">✓</span><div><strong>Container health</strong><small>Dedicated Nginx health route</small></div><span class="check-state">CHECK</span></div>
+        <div class="ops-note">Checks are instructions for a fresh run, not a live cloud status indicator.</div>
+      </div>
+    </div>
+  </section>
+  <section class="closing-section"><div class="container closing-content"><div class="closing-mark"><span></span><span></span><span></span></div><div><div class="eyebrow">RELEASEFORGE / DELIVERY DEMO</div><h2>Ship with a reason.<br>Verify with evidence.</h2></div><a class="button button-light" href="#main">Back to top ↑</a></div></section>
+</main>
+<footer class="site-footer"><div class="container footer-inner"><a class="brand footer-brand" href="#"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>release<span class="brand-accent">forge</span></span></a><p>Container delivery and operational verification.</p><span class="footer-meta">BUILT FOR CLARITY · NOT COMPLEXITY</span></div></footer>
+</body>
+</html>

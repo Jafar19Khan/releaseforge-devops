@@ -1,0 +1,51 @@
+name: ReleaseForge CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: releaseforge-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate required files
+        run: |
+          set -eu
+          test -s app/index.html
+          test -s app/assets/styles.css
+          test -s docker/nginx.conf
+          python -m py_compile tests/smoke_test.py
+          grep -q 'ReleaseForge' app/index.html
+          grep -q 'location = /healthz' docker/nginx.conf
+      - name: Build container image
+        run: docker build --pull -t releaseforge:ci .
+      - name: Start container
+        run: docker run -d --name releaseforge-ci -p 18082:80 releaseforge:ci
+      - name: Wait for health endpoint
+        run: |
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:18082/healthz; then exit 0; fi
+            sleep 2
+          done
+          docker logs releaseforge-ci
+          exit 1
+      - name: Run HTTP smoke test
+        run: python tests/smoke_test.py http://127.0.0.1:18082
+      - name: Cleanup
+        if: always()
+        run: docker rm -f releaseforge-ci || true

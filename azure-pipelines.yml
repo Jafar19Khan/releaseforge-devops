@@ -1,32 +1,34 @@
-# Optional repository validation pipeline. Jenkins remains the primary deployment CI/CD.
 trigger:
   branches:
-    include:
-      - main
-      - master
-
+    include: [main, master]
+pr:
+  branches:
+    include: [main, master]
 pool:
   vmImage: ubuntu-latest
-
 steps:
   - checkout: self
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '3.x'
+      versionSpec: '3.12'
+    displayName: Set up Python
   - script: |
       set -eu
-      python -m py_compile selenium_test.py
-      test -f Dockerfile
-      test -f docker-compose.yml
-      grep -q 'ReleaseForge' devopsIQ/index.html
-    displayName: Validate assignment files
+      test -s app/index.html
+      test -s app/assets/styles.css
+      python -m py_compile tests/smoke_test.py
+      grep -q 'ReleaseForge' app/index.html
+      grep -q 'location = /healthz' docker/nginx.conf
+    displayName: Validate source
+  - script: docker build --pull -t releaseforge:ci .
+    displayName: Build container image
   - script: |
-      docker build -t releaseforge-demo:ci .
-      docker run -d --rm --name releaseforge-ci -p 18082:80 releaseforge-demo:ci
-      trap 'docker stop releaseforge-ci >/dev/null 2>&1 || true' EXIT
-      for attempt in $(seq 1 15); do
-        if curl --fail --silent http://127.0.0.1:18082/devopsIQ/ | grep -q ReleaseForge; then exit 0; fi
+      set -eu
+      docker run -d --name releaseforge-azure-ci -p 18082:80 releaseforge:ci
+      trap 'docker rm -f releaseforge-azure-ci >/dev/null 2>&1 || true' EXIT
+      for attempt in $(seq 1 20); do
+        if curl --fail --silent http://127.0.0.1:18082/healthz >/dev/null; then break; fi
         sleep 2
       done
-      exit 1
-    displayName: Build container and smoke test
+      python tests/smoke_test.py http://127.0.0.1:18082
+    displayName: Run container and HTTP smoke test
